@@ -17,9 +17,8 @@ const slotSchema = new mongoose.Schema({
     default: true,
   },
   doctor: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: [true, "slot must belong to a doctor"],
+    type: String,
+    require: ["true", "A slot must have a doctor"],
   },
 });
 const Slot = mongoose.model("Slot", slotSchema);
