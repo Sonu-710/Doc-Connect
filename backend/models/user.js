@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
   },
-  experience: Number,
+  experience: String,
   photoUrl: {
     type: String,
     // default: "default.jpg",
