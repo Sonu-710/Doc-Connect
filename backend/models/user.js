@@ -21,11 +21,10 @@ const userSchema = new mongoose.Schema({
   specialty: {
     type: String,
   },
-  phone:
-  {
-    type:String
+  phone: {
+    type: String,
   },
-  experience:Number,
+  experience: String,
   photoUrl: {
     type: String,
     // default: "default.jpg",
@@ -55,6 +54,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     select: false,
   },
+  otp: String,
   passwordResetToken: String,
   passwordResetExpires: Date,
 });

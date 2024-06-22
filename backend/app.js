@@ -5,6 +5,8 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/connectdb");
 const userRouter = require("./routes/userRoutes");
+const doctorRouter=require('./routes/doctor')
+const slotsRouter=require('./routes/slots')
 
 dotenv.config({ path: "./config.env" });
 
@@ -26,6 +28,8 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 // Routes
 app.use("/api/user", userRouter);
+app.use('/api/doctors',doctorRouter);
+app.use('/api/slots',slotsRouter);
 
 const PORT = 3000 || process.env.PORT;
 

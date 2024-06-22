@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Dr. John Smith",
+    "specialty": "Cardiology",
+    "phone": "+1-555-123-4567",
+    "email": "john.smith@hospital.com",
+    "experience": "15 years",
+    "education": "MD, Harvard Medical School",
+    "languages": ["English", "Spanish"],
+    "password": "password123",
+    "passwordConfirm": "password123",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/john_smith.jpg"
+  },
+  {
+    "name": "Dr. Emily Johnson",
+    "specialty": "Pediatrics",
+    "phone": "+1-555-234-5678",
+    "email": "emily.johnson@hospital.com",
+    "experience": "10 years",
+    "education": "MD, Johns Hopkins University",
+    "password": "password456",
+    "passwordConfirm": "password456",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/emily_johnson.jpg"
+  },
+  {
+    "name": "Dr. Michael Brown",
+    "specialty": "Neurology",
+    "phone": "+1-555-345-6789",
+    "email": "michael.brown@hospital.com",
+    "experience": "20 years",
+    "education": "MD, Stanford University",
+    "password": "password789",
+    "passwordConfirm": "password789",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/michael_brown.jpg"
+  },
+  {
+    "name": "Dr. Sarah Lee",
+    "specialty": "Dermatology",
+    "phone": "+1-555-456-7890",
+    "email": "sarah.lee@hospital.com",
+    "experience": "12 years",
+    "education": "MD, University of California, San Francisco",
+    "password": "password321",
+    "passwordConfirm": "password321",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/sarah_lee.jpg"
+  },
+  {
+    "name": "Dr. James Williams",
+    "specialty": "Orthopedics",
+    "phone": "+1-555-567-8901",
+    "email": "james.williams@hospital.com",
+    "experience": "18 years",
+    "education": "MD, Mayo Clinic College of Medicine",
+    "password": "password654",
+    "passwordConfirm": "password654",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/james_williams.jpg"
+  },
+  {
+    "name": "Dr. Linda Martinez",
+    "specialty": "Gynecology",
+    "phone": "+1-555-678-9012",
+    "email": "linda.martinez@hospital.com",
+    "experience": "14 years",
+    "education": "MD, University of Pennsylvania",
+    "password": "password987",
+    "passwordConfirm": "password987",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/linda_martinez.jpg"
+  },
+  {
+    "name": "Dr. Robert Davis",
+    "specialty": "General Surgery",
+    "phone": "+1-555-789-0123",
+    "email": "robert.davis@hospital.com",
+    "experience": "22 years",
+    "education": "MD, Johns Hopkins University",
+    "password": "password098",
+    "passwordConfirm": "password098",
+    "role":"doctor",
+    "photoUrl": "https://hospital.com/photos/robert_davis.jpg"
+  }
+]
