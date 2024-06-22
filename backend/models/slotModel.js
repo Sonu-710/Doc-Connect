@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const slotSchema = new mongoose.Schema({
-  location: {
+  address: {
     type: String,
-    require: ["true", "a slot must have a location"],
+    require: ["true", "a slot must have a address"],
   },
   startTime: String,
   endTime: String,
@@ -16,10 +16,20 @@ const slotSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  location: {
+    type: {
+      type: String,
+      default: "Point",
+      enum: ["Point"],
+    },
+    coordinates: [Number],
+    address: String,
+  },
   doctor: {
     type: String,
     require: ["true", "A slot must have a doctor"],
   },
 });
+slotSchema.index({ startLocation: "2dsphere" });
 const Slot = mongoose.model("Slot", slotSchema);
 module.exports = Slot;

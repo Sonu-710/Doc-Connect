@@ -2,6 +2,7 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Doc = require("./../models/user");
+const connectDB = require("./../config/connectdb");
 
 dotenv.config({ path: "./config.env" });
 
@@ -14,9 +15,7 @@ const DB = process.env.DATABASE_URL.replace(
 );
 // console.log("DATABASE_PASSWORD:", process.env.DATABASE_PASSWORD);
 
-mongoose
-  .connect(DB, {})
-  .then((con) => console.log("DB Connection Successful!"));
+connectDB.connectDB(DB);
 
 // Read JSON file
 const docs = JSON.parse(fs.readFileSync(`${__dirname}/doc-data.json`, "utf-8"));
