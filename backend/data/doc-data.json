@@ -9,6 +9,7 @@
     "languages": ["English", "Spanish"],
     "password": "password123",
     "passwordConfirm": "password123",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/john_smith.jpg"
   },
   {
@@ -20,6 +21,7 @@
     "education": "MD, Johns Hopkins University",
     "password": "password456",
     "passwordConfirm": "password456",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/emily_johnson.jpg"
   },
   {
@@ -31,6 +33,7 @@
     "education": "MD, Stanford University",
     "password": "password789",
     "passwordConfirm": "password789",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/michael_brown.jpg"
   },
   {
@@ -42,6 +45,7 @@
     "education": "MD, University of California, San Francisco",
     "password": "password321",
     "passwordConfirm": "password321",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/sarah_lee.jpg"
   },
   {
@@ -53,6 +57,7 @@
     "education": "MD, Mayo Clinic College of Medicine",
     "password": "password654",
     "passwordConfirm": "password654",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/james_williams.jpg"
   },
   {
@@ -64,6 +69,7 @@
     "education": "MD, University of Pennsylvania",
     "password": "password987",
     "passwordConfirm": "password987",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/linda_martinez.jpg"
   },
   {
@@ -75,6 +81,7 @@
     "education": "MD, Johns Hopkins University",
     "password": "password098",
     "passwordConfirm": "password098",
+    "role":"doctor",
     "photoUrl": "https://hospital.com/photos/robert_davis.jpg"
   }
 ]
