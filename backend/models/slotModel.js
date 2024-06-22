@@ -55,8 +55,9 @@ const slotSchema = new mongoose.Schema({
     coordinates: [Number],
   },
   doctor: {
-    type: String,
-    require: ["true", "A slot must have a doctor"],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "A slot must be associated with a doctor"],
   },
   createdAt: {
     type: Date,
