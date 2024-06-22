@@ -1,0 +1,70 @@
+/* AppointmentItem.css */
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.5rem;
+    width: 100%;
+    /* Full width of the container */
+    max-width: 600px;
+    /* Maximum width for the card */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-item__info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.appointment-item__info h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.appointment-item__info h3 {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #777;
+}
+
+.appointment-item__actions {
+    margin-left: 1rem;
+    align-self: center;
+}
+
+.appointment-item__actions button {
+    background-color: #ff0055;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.appointment-item__actions button:hover {
+    background-color: #ff3366;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .appointment-item {
+        align-items: flex-start;
+    }
+
+    .appointment-item__actions {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    .appointment-item__actions button {
+        width: 100%;
+        text-align: center;
+    }
+}
