@@ -1,0 +1,35 @@
+/* AppointmentList.css */
+
+.appointment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    /* Adds space between appointment items */
+}
+
+.appointment-list h2 {
+    color: #555;
+}
+
+/* Example styles for AppointmentItem, adjust as needed */
+.appointment-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.appointment-item h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.appointment-item p {
+    margin: 0.5rem 0;
+    color: #777;
+}

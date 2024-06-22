@@ -22,8 +22,9 @@ a {
   text-decoration: inherit;
 }
 
-a:hover {
-  
+.container {
+  margin: auto;
+  max-width: 1200px;
 }
 
 body {

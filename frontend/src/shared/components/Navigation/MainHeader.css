@@ -1,0 +1,9 @@
+/* MainHeader.css */
+
+.main-header {
+    display: flex;
+    align-items: center;
+    background: #333;
+    padding: 0 1rem;
+    height: 56px;
+}

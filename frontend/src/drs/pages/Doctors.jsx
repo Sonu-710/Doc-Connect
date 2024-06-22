@@ -32,8 +32,7 @@ const Doctors = () => {
         }
         sendRequest();
     }, [])
-
-    return (!isLoading&&loadedDr&&<DoctorsList items={loadedDr} />)
+    return (!isLoading && loadedDr && <DoctorsList items={loadedDr?.data} />)
 }
 
 export default Doctors;

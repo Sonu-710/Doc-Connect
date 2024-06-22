@@ -5,17 +5,22 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import Users from './user/pages/Users.jsx'
-import Appointment from './drs/pages/Appointment.jsx'
+import BookAppointment from './drs/pages/BookAppointment.jsx'
 import Doctors from './drs/pages/Doctors.jsx'
+import MainNavigation from './shared/components/Navigation/MainNavigation.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Users />} />
-        <Route path="/doctors" element={<Doctors />} />
-      </Routes >
+      <MainNavigation />
+      <main className='container'>
+        <Routes>
+          <Route path="/" element={<Users />} />
+          <Route path="/doctors" element={<Doctors />} />
+          <Route path="/:slid/appointments" exact element={<BookAppointment />} />
+        </Routes >
+      </main>
     </BrowserRouter>
   </React.StrictMode>,
 )
