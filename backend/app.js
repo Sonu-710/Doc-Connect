@@ -32,7 +32,7 @@ app.use("/api/user", userRouter);
 app.use('/api/doctors',doctorRouter);
 app.use('/api/slots',slotsRouter);
 
-const PORT = 4000 || process.env.PORT;
+const PORT = 3000 || process.env.PORT;
 
 console.log(`Environment : ${app.get("env")}`);
 

@@ -44,7 +44,7 @@ exports.createDoctor = catchAsync(async (req, res, next) => {
 });
 
 exports.updateDoctor = catchAsync(async (req, res, next) => {
-  const doctor = await User.findByIdAndUpdate(req.params.id, req.body, {
+  const doctor = await User.findByIdAndUpdate(req.user.id, req.body, {
     new: true,
     runValidators: true,
   });

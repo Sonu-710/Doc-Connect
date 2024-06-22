@@ -23,46 +23,33 @@ exports.getAllSlots = async (req, res, next) => {
 exports.createSlot = async (req, res, next) => {
   try {
     req.body.doctor = req.user._id;
-    const { address } = req.body;
-    try {
-      const response = await axios.get(
-        "https://nominatim.openstreetmap.org/search",
-        {
-          params: {
-            q: address,
-            format: "json",
-          },
-        }
-      );
 
-      if (response.data.length > 0) {
-        const location = response.data[0];
+    const { town, houseNumber, street, postcode, city, State, Country } =
+      req.body;
+    const URL = `https://api.geoapify.com/v1/geocode/search?name=${town}&housenumber=${houseNumber}&street=${street}%20Road&postcode=${postcode}&city=${city}&state=${State}&country=${Country}&format=json&apiKey=${process.env.LOCATION_API_KEY}`;
 
-        const locationData = response.data[0];
-        const latitude = parseFloat(locationData.lat);
-        const longitude = parseFloat(locationData.lon);
+    const response = await axios.get(URL);
+    const location = response.data.results[0];
 
-        req.location.coordinates[0] = latitude;
-        req.location.coordinates[1] = longitude;
-        req.location.address = address;
-      } else {
-        res.status(404).json({ error: "Address not found" });
-      }
-    } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
-    }
+    req.body.location = {
+      type: "Point",
+      coordinates: [location.lon, location.lat],
+    };
 
     const newSlot = await Slot.create(req.body);
+
     res.status(201).json({
       status: "success",
       data: {
-        data: newSlot,
+        slot: newSlot,
       },
     });
-  } catch (err) {
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
-      status: "failure",
-      err,
+      status: "error",
+      message: "Failed to create slot",
+      error: error.message,
     });
   }
 };
