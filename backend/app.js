@@ -7,6 +7,7 @@ const connectDB = require("./config/connectdb");
 const userRouter = require("./routes/userRoutes");
 const doctorRouter=require('./routes/doctor')
 const slotsRouter=require('./routes/slots')
+const patientRouter=require('./routes/patient')
 
 dotenv.config({ path: "./config.env" });
 
@@ -28,7 +29,7 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 // Routes
 app.use("/api/user", userRouter);
-
+app.use('/api/patients',patientRouter);
 app.use('/api/doctors',doctorRouter);
 app.use('/api/slots',slotsRouter);
 
