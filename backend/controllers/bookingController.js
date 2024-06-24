@@ -11,7 +11,7 @@ exports.createBooking = async (req, res, next) => {
 
     console.log(req.body);
     req.body.patient = req.user._id;
-    req.body.doctor = slot.doctor; // no need to access _id, it's already an ObjectId
+    req.body.doctor = slot.doctor;
     console.log(req.body);
 
     if (slot.bookings === 0) {

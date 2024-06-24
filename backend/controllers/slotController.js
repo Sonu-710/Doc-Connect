@@ -4,7 +4,7 @@ const Slots = require("./../models/slotModel");
 
 exports.getAllSlots = async (req, res, next) => {
   try {
-    const slots = await Slots.find({});
+    const slots = await Slots.find({ doctor: req.user.id });
     res.status(200).json({
       status: "success",
       data: {
