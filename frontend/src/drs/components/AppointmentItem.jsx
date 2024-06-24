@@ -1,6 +1,8 @@
 import React from "react";
 
+import Button from "../../shared/components/UIElements/Button";
 import './AppointmentItem.css';
+
 
 const AppointmentItem = props => {
     return <li className="appointment-item">
@@ -11,7 +13,7 @@ const AppointmentItem = props => {
             <h3>{props.location}</h3>
         </div>
         <div className="appointment-item__actions">
-            <button>Book</button>
+            <Button>Book</Button>
         </div>
     </li>
 }

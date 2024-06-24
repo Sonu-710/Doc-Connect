@@ -16,7 +16,7 @@ const dummy_appointments = [{
 }]
 
 const BookAppointment = () => {
-
+    
     return (<AppointmentList items={dummy_appointments} />)
 }
 
