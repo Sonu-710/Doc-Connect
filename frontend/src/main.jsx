@@ -9,6 +9,7 @@ import BookAppointment from './drs/pages/BookAppointment.jsx'
 import Doctors from './drs/pages/Doctors.jsx'
 import MainNavigation from './shared/components/Navigation/MainNavigation.jsx'
 import SignUp from './user/pages/SignUp.jsx'
+import SignIn from './user/pages/SignIn.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -20,7 +21,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/" element={<Users />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/:slid/appointments" element={<BookAppointment />} />
-          <Route path='/auth' element={<SignUp />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/signin' element={<SignIn />} />
         </Routes >
       </main>
     </BrowserRouter>
