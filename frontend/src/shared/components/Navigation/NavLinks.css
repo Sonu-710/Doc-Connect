@@ -16,6 +16,11 @@
     font-size: 1.2rem;
 }
 
+.btn-lg {
+    color: white;
+    background-color: #333;
+}
+
 .nav-links a:hover,
 .nav-links a:active,
 .nav-links a.active {

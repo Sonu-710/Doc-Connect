@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../../shared/utils/validators';
 import { useForm } from "../../shared/hooks/form-hook";
 import Button from "../../shared/components/UIElements/Button";
 import './SignIn.css';
+import { AuthContext } from "../../shared/context/auth-context";
 
 const SignIn = () => {
+    const auth = useContext(AuthContext);
     const [formState, inputHandler] = useForm(
         {
             email: {
@@ -23,6 +25,7 @@ const SignIn = () => {
     const authSubmitHandler = event => {
         event.preventDefault();
         console.log(formState.inputs); // send this to backend or process it further
+        auth.login();
     };
 
     return (
