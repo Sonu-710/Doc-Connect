@@ -90,9 +90,35 @@ const SignUp = () => {
         });
     };
 
-    const authSubmitHandler = event => {
+    const authSubmitHandler = async event => {
         event.preventDefault();
-        console.log(formState.inputs); // send this to backend or process it further
+
+        //Signup API
+        try {
+            const response = await fetch('http://localhost:3000/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: formState.inputs.name.value,
+                    email: formState.inputs.email.value,
+                    password: formState.inputs.password.value,
+                    passwordConfirm: formState.inputs.passwordConfirm.value,
+                    qualification: formState.inputs.qualification.value,
+                    speciality: formState.inputs.speciality.value,
+                    phone: formState.inputs.phone.value,
+                    photoUrl: formState.inputs.photoUrl.value,
+                })
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+
         auth.login();
     };
 
