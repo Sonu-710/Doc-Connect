@@ -1,6 +1,8 @@
 // Auth.js
 import React, { useState, useContext } from "react";
 import Input from '../../shared/components/FormElements/Input';
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import {
     VALIDATOR_EMAIL,
     VALIDATOR_MINLENGTH
@@ -13,6 +15,9 @@ import { AuthContext } from "../../shared/context/auth-context";
 const SignUp = () => {
     const auth = useContext(AuthContext);
     const [isPatient, setIsPatient] = useState(true);
+    const [error, setError] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
     const [formState, inputHandler, setFormData] = useForm(
         {
             name: {
@@ -95,6 +100,7 @@ const SignUp = () => {
 
         //Signup API
         try {
+            setIsLoading(true);
             const response = await fetch('http://localhost:3000/api/user/register', {
                 method: 'POST',
                 headers: {
@@ -112,103 +118,118 @@ const SignUp = () => {
                 })
             });
             const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
             console.log(responseData);
+            setIsLoading(false);
+            auth.login();
         }
         catch (err) {
             console.log(err);
+            setIsLoading(false);
+            setError(err.message || 'Something went wrong, please try again.');
+
         }
 
+        setIsLoading(false);
 
-        auth.login();
     };
 
+    const errorHandler = () => {
+        setError(null);
+    }
+
     return (
-        <div className="auth">
-            <div className="auth-card">
-                <h2>Sign Up</h2>
-                <Button inverse onClick={switchModeHandler}>SWITCH TO {!isPatient ? `PATIENT` : `DOCTOR`}</Button>
-                <form onSubmit={authSubmitHandler}>
-                    <Input
-                        element='input'
-                        id='name'
-                        type='text'
-                        label='Name'
-                        validators={[]}
-                        errorText='Please enter a valid name'
-                        onInput={inputHandler}
-                    />
-                    <Input
-                        element='input'
-                        id='email'
-                        type='email'
-                        label='E-mail'
-                        validators={[]}
-                        errorText='Please enter a valid email address'
-                        onInput={inputHandler}
-                    />
-                    <Input
-                        element='input'
-                        id='password'
-                        type='password'
-                        label='Password'
-                        validators={[]}
-                        errorText='Please enter a valid password'
-                        onInput={inputHandler}
-                    />
-                    <Input
-                        element='input'
-                        id='passwordConfirm'
-                        type='password'
-                        label='Confirm password'
-                        validators={[]}
-                        errorText='Please enter the same password'
-                        onInput={inputHandler}
-                    />
-                    {!isPatient &&
-                        <>
-                            <Input
-                                element='input'
-                                id='qualification'
-                                type='text'
-                                label='Qualification'
-                                validators={[]}
-                                errorText='Please enter a valid qualification'
-                                onInput={inputHandler}
-                            />
-                            <Input
-                                element='input'
-                                id='speciality'
-                                type='text'
-                                label='Speciality'
-                                validators={[]}
-                                errorText='Please enter a valid speciality'
-                                onInput={inputHandler}
-                            />
-                        </>
-                    }
-                    <Input
-                        element='input'
-                        id='phone'
-                        type='text'
-                        label='Phone No'
-                        validators={[]}
-                        errorText='Please enter a phone number'
-                        onInput={inputHandler}
-                    />
-                    <Input
-                        element='input'
-                        id='photoUrl'
-                        type='text'
-                        label='Photo'
-                        validators={[]}
-                        errorText='Please enter a URL'
-                        onInput={inputHandler}
-                    />
-                    <Button type='submit'>Sign Up</Button>
-                </form>
+        <>
+            <ErrorModal error={error} onClear={errorHandler} />
+            <div className="auth">
+                {isLoading && <LoadingSpinner asOverlay />}
+                <div className="auth-card">
+                    <h2>Sign Up</h2>
+                    <Button inverse onClick={switchModeHandler}>SWITCH TO {!isPatient ? `PATIENT` : `DOCTOR`}</Button>
+                    <form onSubmit={authSubmitHandler}>
+                        <Input
+                            element='input'
+                            id='name'
+                            type='text'
+                            label='Name'
+                            validators={[]}
+                            errorText='Please enter a valid name'
+                            onInput={inputHandler}
+                        />
+                        <Input
+                            element='input'
+                            id='email'
+                            type='email'
+                            label='E-mail'
+                            validators={[]}
+                            errorText='Please enter a valid email address'
+                            onInput={inputHandler}
+                        />
+                        <Input
+                            element='input'
+                            id='password'
+                            type='password'
+                            label='Password'
+                            validators={[]}
+                            errorText='Please enter a valid password'
+                            onInput={inputHandler}
+                        />
+                        <Input
+                            element='input'
+                            id='passwordConfirm'
+                            type='password'
+                            label='Confirm password'
+                            validators={[]}
+                            errorText='Please enter the same password'
+                            onInput={inputHandler}
+                        />
+                        {!isPatient &&
+                            <>
+                                <Input
+                                    element='input'
+                                    id='qualification'
+                                    type='text'
+                                    label='Qualification'
+                                    validators={[]}
+                                    errorText='Please enter a valid qualification'
+                                    onInput={inputHandler}
+                                />
+                                <Input
+                                    element='input'
+                                    id='speciality'
+                                    type='text'
+                                    label='Speciality'
+                                    validators={[]}
+                                    errorText='Please enter a valid speciality'
+                                    onInput={inputHandler}
+                                />
+                            </>
+                        }
+                        <Input
+                            element='input'
+                            id='phone'
+                            type='text'
+                            label='Phone No'
+                            validators={[]}
+                            errorText='Please enter a phone number'
+                            onInput={inputHandler}
+                        />
+                        <Input
+                            element='input'
+                            id='photoUrl'
+                            type='text'
+                            label='Photo'
+                            validators={[]}
+                            errorText='Please enter a URL'
+                            onInput={inputHandler}
+                        />
+                        <Button type='submit'>Sign Up</Button>
+                    </form>
+                </div>
             </div>
-        </div>
-    );
+        </>);
 };
 
 export default SignUp;
