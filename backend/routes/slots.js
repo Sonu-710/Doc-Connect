@@ -5,7 +5,6 @@ const userController = require("./../controllers/userController");
 
 router
   .route("/")
-  .get(userController.protect,userController.restrictTo('doctor'),slotController.getAllSlots)
   .post(
     userController.protect,
     userController.restrictTo("doctor"),
@@ -14,6 +13,7 @@ router
 
 router
   .route("/:id")
+  .get(slotController.getAllSlots)
   .patch(slotController.updateSlot)
   .delete(slotController.deleteSlot);
 
