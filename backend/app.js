@@ -27,6 +27,15 @@ connectDB.connectDB(DATABASE_URL);
 // Middleware
 app.use(express.json());
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+  });
+});
 
 // Routes
 app.use("/api/user", userRouter);
