@@ -73,7 +73,7 @@ exports.updateSlot = async (req, res, next) => {
 
 exports.deleteSlot = async (req, res, next) => {
   try {
-    const updatedSlot = await Slot.findByIdAndDelete(req.params.id);
+    await Slot.findByIdAndDelete(req.params.id);
     res.status(200).json({
       status: "success",
       data: null,
