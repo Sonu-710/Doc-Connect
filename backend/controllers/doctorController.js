@@ -1,5 +1,6 @@
 const AppError = require("../utils/AppError");
 const User = require("./../models/user");
+const catchAsync = require("./../utils/CatchAsync.js");
 
 exports.getAllDoctors = async (req, res, next) => {
   try {
