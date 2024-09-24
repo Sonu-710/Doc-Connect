@@ -35,12 +35,13 @@ const createSendToken = (user, statusCode, res) => {
 exports.signup = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
-    const url = `${req.protocol}://${req.get("host")}/me`;
+    console.log(newUser);
     createSendToken(newUser, 201, res);
   } catch (err) {
     res.status(500).json({
       status: "error",
       message: "Something went wrong during signup. Please try again later.",
+      err
     });
   }
 };
@@ -178,7 +179,6 @@ exports.updateMyPassword = async (req, res) => {
     });
   }
 };
-
 
 // exports.forgotPassword = catchAsync(async (req, res, next) => {
 //   const user = await User.findOne({ email: req.body.email });

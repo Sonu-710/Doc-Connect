@@ -4,18 +4,25 @@ const AppError = require("./../utils/AppError");
 
 exports.createBooking = async (req, res, next) => {
   try {
-    const slot = await Slot.findById(req.body.slot);
+    const slot = await Slot.findById(req.params.id);
     if (!slot) {
-      return next(new AppError("Slot not found", 404));
+      res.status(404).json({
+        status: "failure",
+        message: "Error in getting slot",
+      });
     }
 
     console.log(req.body);
+    req.body.slot=req.params.id;
     req.body.patient = req.user._id;
     req.body.doctor = slot.doctor;
     console.log(req.body);
 
     if (slot.bookings === 0) {
-      return next(new AppError("No more patients", 400));
+      res.status(400).json({
+        status: "failure",
+        message: "Bookings are no more open for this slot",
+      });
     }
 
     await Slot.findByIdAndUpdate(
