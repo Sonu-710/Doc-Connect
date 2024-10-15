@@ -4,7 +4,7 @@ const bookingController = require("./../controllers/bookingController");
 const userController = require("./../controllers/userController");
 
 router
-  .route("/")
+  .route("/:id")
   .post(
     userController.protect,
     userController.restrictTo("patient"),

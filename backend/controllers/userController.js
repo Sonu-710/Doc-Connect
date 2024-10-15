@@ -1,7 +1,5 @@
 const { promisify } = require("util");
 const User = require("./../models/user");
-const catchAsync = require("./../utils/CatchAsync.js");
-const AppError = require("./../utils/AppError");
 const Email = require("./../utils/email");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
@@ -34,63 +32,152 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
-  const url = `${req.protocol}://${req.get("host")}/me`;
-
-  // await new Email(newUser, url).sendWelcome();
-  createSendToken(newUser, 201, res);
-});
-
-exports.login = catchAsync(async (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  if (!email || !password)
-    return next(new AppError("Please provide email and password", 400));
-
-  const user = await User.findOne({ email: email }).select("+password");
-
-  if (!user || !(await user.correctPassword(password, user.password)))
-    return next(new AppError("Invalid email or password"), 401);
-
-  createSendToken(user, 200, res);
-});
-
-exports.protect = catchAsync(async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
+exports.signup = async (req, res) => {
+  try {
+    const newUser = await User.create(req.body);
+    console.log(newUser);
+    createSendToken(newUser, 201, res);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Something went wrong during signup. Please try again later.",
+      err
+    });
   }
-  if (!token) {
-    return next(new AppError("You are not logged in", 401));
+};
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide email and password",
+      });
+    }
+
+    const user = await User.findOne({ email }).select("+password");
+
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Incorrect email or password",
+      });
+    }
+
+    createSendToken(user, 200, res);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Something went wrong during login. Please try again later.",
+    });
   }
+};
 
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+exports.protect = async (req, res, next) => {
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+    if (!token) {
+      return res.status(401).json({
+        status: "fail",
+        message: "You are not logged in",
+      });
+    }
 
-  const user = await User.findById(decoded.id);
-  if (!user) return next(new AppError("The user no longer exists", 401));
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  if (user.changedPasswordAfter(decoded.iat))
-    return next(
-      new AppError("User recently changed password.Please login again", 401)
-    );
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(401).json({
+        status: "fail",
+        message: "The user no longer exists",
+      });
+    }
 
-  req.user = user;
-  next();
-});
+    if (user.changedPasswordAfter(decoded.iat)) {
+      return res.status(401).json({
+        status: "fail",
+        message: "User recently changed password. Please log in again",
+      });
+    }
+
+    req.user = user;
+    next();
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message:
+        "Something went wrong while protecting the route. Please try again later.",
+    });
+  }
+};
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role))
-      return next(
-        new Error("You don't have access to perfrom this action", 403)
-      );
-    next();
+    try {
+      if (!roles.includes(req.user.role)) {
+        return res.status(403).json({
+          status: "fail",
+          message: "You don't have access to perform this action",
+        });
+      }
+      next();
+    } catch (err) {
+      res.status(500).json({
+        status: "error",
+        message:
+          "Something went wrong while checking user role. Please try again later.",
+      });
+    }
   };
+};
+
+exports.updateMyPassword = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("+password");
+
+    if (
+      !req.body.currentPassword ||
+      !req.body.passwordConfirm ||
+      !req.body.newPassword
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid Input",
+      });
+    }
+
+    const isPasswordCorrect = await user.correctPassword(
+      req.body.currentPassword,
+      user.password
+    );
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Invalid password",
+      });
+    }
+
+    user.password = req.body.newPassword;
+    user.passwordConfirm = req.body.passwordConfirm;
+
+    await user.save();
+    createSendToken(user, 200, res);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message:
+        "Something went wrong while updating the password. Please try again later.",
+    });
+  }
 };
 
 // exports.forgotPassword = catchAsync(async (req, res, next) => {
@@ -143,29 +230,3 @@ exports.restrictTo = (...roles) => {
 //   await user.save();
 //   createSendToken(user, 200, res);
 // });
-
-exports.updateMyPassword = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id).select("+password");
-
-  if (
-    !req.body.currentPassword ||
-    !req.body.passwordConfirm ||
-    !req.body.newPassword
-  )
-    return next(new AppError("Invalid Input", 404));
-
-  const isPasswordCorrect = await user.correctPassword(
-    req.body.currentPassword,
-    user.password
-  );
-  if (!isPasswordCorrect) return next(new AppError("Invalid password", 401));
-
-  user.password = req.body.newPassword;
-  user.passwordConfirm = req.body.passwordConfirm;
-
-  await user.save();
-  createSendToken(user, 200, res);
-});
-
-
-
